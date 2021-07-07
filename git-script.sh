@@ -8,5 +8,5 @@
 
 git add .
 git commit -m "$*"
-git pull origin master
-git push origin master
+git pull origin main
+git push origin main
