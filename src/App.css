@@ -43,7 +43,7 @@ button {
   border-image:url(http://blogrope.com/wp-content/uploads/2013/06/003-wood-melamine-subttle-pattern-background-pat.jpg) 30 30 stretch;
 }
 
-.five, .three, .two, .one-1, .one-2 {
+.five, .three, .two, .oneFirst, .oneSecond {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,7 +52,6 @@ button {
 }
 
 .five {
-  background-color: var(--both);
   height: 500px;
   width: 500px;
   position: absolute;
@@ -61,7 +60,6 @@ button {
 }
 
 .three {
-  background-color: var(--hours);
   height: 300px;
   width: 300px;
   position: absolute;
@@ -70,7 +68,6 @@ button {
 }
 
 .two {
-  background-color: var(--minutes);
   height: 200px;
   width: 200px;
   position: absolute;
@@ -78,8 +75,7 @@ button {
   left: 0;
 }
 
-.one-1 {
-  background-color: var(--hours);
+.oneFirst {
   height: 100px;
   width: 100px;
   position: absolute;
@@ -87,8 +83,7 @@ button {
   left: 200px;
 }
 
-.one-2 {
-  background-color: var(--blank);
+.oneSecond {
   height: 100px;
   width: 100px;
   position: absolute;
