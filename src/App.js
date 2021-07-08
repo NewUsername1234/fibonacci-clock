@@ -6,10 +6,7 @@ function App() {
 	const minutesValue = useRef();
 	const hoursValue = useRef();
 
-	/* states */
-	const [hours, setHours] = useState(0);
-	const [minutes, setMinutes] = useState(0);
-
+	/* state */
 	const [fieldColors, setFieldColors] = useState([
 		'var(--blank)',
 		'var(--blank)',
@@ -20,8 +17,6 @@ function App() {
 
 	/* get current time button */
 	const getCurrentTime = () => {
-		/* setHours((new Date().getHours() + 24) % 12 || 12);
-		setMinutes(new Date().getMinutes()); */
 		hoursValue.current.value = (new Date().getHours() + 24) % 12 || 12;
 		minutesValue.current.value = new Date().getMinutes();
 		setFibClock();
@@ -47,9 +42,10 @@ function App() {
 				minutesTemp -= fibArr[i] * 5;
 			}
 		}
-		/* one state behind */
+		/*
 		console.log('hoursInFib:', hoursInFib);
 		console.log('minutesInFib:', minutesInFib);
+		*/
 
 		/* set colors */
 		const fieldColorsTemp = [...fieldColors];
@@ -79,7 +75,7 @@ function App() {
 			/* setting the white fields */
 			fieldColorsTemp[i] = 'var(--blank)';
 		}
-		console.log('fieldColorsTemp', fieldColorsTemp);
+		/* console.log('fieldColorsTemp', fieldColorsTemp); */
 		setFieldColors(fieldColorsTemp);
 	};
 
@@ -96,9 +92,7 @@ function App() {
 						ref={hoursValue}
 						min="1"
 						max="12"
-						value={hours}
 						onChange={(e) => {
-							setHours(Number(e.target.value));
 							setFibClock();
 						}}
 					/>
@@ -112,9 +106,7 @@ function App() {
 						ref={minutesValue}
 						min="0"
 						max="59"
-						value={minutes}
 						onChange={(e) => {
-							setMinutes(Number(e.target.value));
 							setFibClock();
 						}}
 					/>
