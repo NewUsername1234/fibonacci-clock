@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGI Challenge</title>
+</head>
+
+<body>
+    <script>
+        const fibonacciClock = (h, m) => {
+
+            const fibArr = [5, 3, 2, 1, 1];
+
+            /*
+            let originHours = new Date().getHours();
+            originHours = +originHours % 12 === 1 ? +originHours - 12 : +originHours % 12;
+            */
+
+            /*
+            let hours = +originHours;
+            let minutes = Number(new Date().getMinutes());
+            */
+
+            /* testing */
+            let hours = +h;
+            let minutes = +m;
+
+            console.log('INPUT:\n',
+                'hours:', hours,
+                '\nminutes:', minutes
+            );
+
+            const hoursInFib = [];
+            const minutesInFib = [];
+
+            /* represent time in fibonacci numbers */
+            for (let i = 0; i < fibArr.length; i++) {
+                if (Math.floor(hours / fibArr[i]) >= 1) {
+                    hoursInFib.push(fibArr[i]);
+                    hours -= fibArr[i];
+                }
+                if (Math.floor((+minutes / fibArr[i]) / fibArr[i]) >= 1) {
+                    minutesInFib.push(fibArr[i]);
+                    minutes -= fibArr[i] * 5;
+                }
+            }
+
+            /* hier war der fehler, keine kopie erstellt */
+            const hoursInFibCopy = [...hoursInFib];
+            const minutesInFibCopy = [...minutesInFib];
+
+            /* check blue */
+            const blueArr = [];
+            for (let i = 0; i < 5; i++) {
+                if (hoursInFibCopy.indexOf(fibArr[i]) !== -1 &&
+                    minutesInFibCopy.indexOf(fibArr[i]) !== -1) {
+
+                    blueArr.push(fibArr[i]);
+                    hoursInFibCopy.splice(i, 1);
+                    minutesInFibCopy.splice(i, 1);
+                }
+            }
+            /* remove blue fields */
+            const fibArrMinusBlue = fibArr.filter(n => !blueArr.includes(n));
+
+            /* check red */
+            const redArr = [];
+            for (let i = 0; i < fibArrMinusBlue.length - 1; i++) {
+                if (hoursInFibCopy.indexOf(fibArrMinusBlue[i]) !== -1) {
+                    redArr.push(fibArrMinusBlue[i]);
+                    hoursInFibCopy.splice(i, 1);
+                }
+            }
+            /* remove red fields */
+            const fibArrMinusBlueAndRed = fibArrMinusBlue.filter(n => !redArr.includes(n));
+
+            /* check green */
+            const greenArr = [];
+            for (let i = 0; i < fibArrMinusBlueAndRed.length - 1; i++) {
+                if (minutesInFibCopy.indexOf(fibArrMinusBlueAndRed[i]) !== -1) {
+                    greenArr.push(fibArrMinusBlueAndRed[i]);
+                    minutesInFibCopy.splice(i, 1);
+                }
+            }
+
+
+            /*    console.log('TIME:\n',{
+                   'current time:': new Date(),
+                   'hours:': hours,
+                   'minutes:': minutes,
+               }); */
+            console.log('TIME IN FIB:\n', {
+                'hours in fib:': hoursInFib,
+                'minutes in fib:': minutesInFib
+            });
+
+            console.log('REDUCED ARRAYS: \n', {
+                'fibArrMinusBlue': fibArrMinusBlue,
+                'fibArrMinusBlueAndRed': fibArrMinusBlueAndRed,
+            });
+
+            console.log('SOLUTION: \n', {
+                'blue array:': blueArr,
+                'red array:': redArr,
+                'green array:': greenArr
+            });
+            return 1;
+        }
+        fibonacciClock(11, 0);
+
+        /* setInterval(() => fibonacciClock(), 3000); */
+    </script>
+</body>
+
+</html>

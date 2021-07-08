@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGI Challenge</title>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Open Console Please !</h1>
+
+    <script>
+        const fibonacciClock = (h, m) => {
+
+            const fibArr = [5, 3, 2, 1, 1];
+
+            let hours = h > 12 ? h - 12 : h;
+            let minutes = m;
+            console.log('INPUT:\n',
+                'hours:', hours,
+                '\nminutes:', minutes
+            );
+
+            /* represent time in fibonacci numbers */
+
+            const hoursInFib = [];
+            const minutesInFib = [];
+
+            for (let i = 0; i < fibArr.length; i++) {
+                if (hours / fibArr[i] >= 1) {
+                    hoursInFib.push(fibArr[i]);
+                    hours -= fibArr[i];
+                }
+                if (minutes / (fibArr[i] * 5) >= 1) {
+                    minutesInFib.push(fibArr[i]);
+                    minutes -= fibArr[i] * 5;
+                }
+            }
+            console.log('TIME IN FIB:\n', {
+                'hours in fib:': hoursInFib,
+                'minutes in fib:': minutesInFib
+            });
+
+            /* set colors for each field */
+
+            const fieldColors = [];
+
+            /* create copies for proper console log */
+            const hoursInFibCopy = [...hoursInFib];
+            const minutesInFibCopy = [...minutesInFib];
+
+            /* five iterations for 5 fields */
+            for (let i = 0; i < 5; i++) {
+
+                /* setting the blue fields */
+                if (hoursInFibCopy.includes(fibArr[i]) && minutesInFibCopy.includes(fibArr[i])) {
+                    fieldColors[i] = 'blue';
+                    hoursInFibCopy.splice(hoursInFibCopy.indexOf(fibArr[i]), 1);
+                    minutesInFibCopy.splice(minutesInFibCopy.indexOf(fibArr[i]), 1);
+                    continue;
+                }
+
+                /* setting the red fields */
+                if (hoursInFibCopy.includes(fibArr[i])) {
+                    fieldColors[i] = 'red';
+                    hoursInFibCopy.splice(hoursInFibCopy.indexOf(fibArr[i]), 1);
+                    continue;
+                }
+
+                /* setting the green fields */
+                if (minutesInFibCopy.includes(fibArr[i])) {
+                    fieldColors[i] = 'green';
+                    minutesInFibCopy.splice(minutesInFibCopy.indexOf(fibArr[i]), 1);
+                    continue;
+                }
+
+                /* setting the white fields */
+                fieldColors[i] = 'white';
+            }
+
+            /* create good looking solution */
+            const solution = {};
+            const fields = ['five', 'three', 'two', 'oneFirst', 'oneSecond'];
+            for (let i = 0; i < 5; i++) {
+                solution[fields[i]] = fieldColors[i];
+            }
+
+            console.log('Solution: \n', solution);
+            return 1;
+        }
+        /* test cases */
+        fibonacciClock(11, 0);
+        fibonacciClock(7, 0);
+        fibonacciClock(6, 30);
+        fibonacciClock(9, 25);
+        fibonacciClock(14, 59);
+
+        /* update every 5 Minutes:
+        if(new Date().getMinutes() % 5 === 0) fibonacciClock(11,0);
+        */
+    </script>
+</body>
+
+</html>
