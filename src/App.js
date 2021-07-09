@@ -48,7 +48,8 @@ function App() {
 		*/
 
 		/* set colors */
-		const fieldColorsTemp = [...fieldColors];
+		/* rewrite to use states + useEffect */
+		const fieldColorsTemp = [...fieldColors]; /* not necessary, im creating a whole new array */
 		for (let i = 0; i < 5; i++) {
 			/* setting the blue fields */
 			if (hoursInFib.includes(fibArr[i]) && minutesInFib.includes(fibArr[i])) {
