@@ -1,12 +1,10 @@
 import './App.css';
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
-	/* refs */
-	const minutesValue = useRef();
-	const hoursValue = useRef();
-
-	/* state */
+	/* states */
+	const [hours, setHours] = useState(0);
+	const [minutes, setMinutes] = useState(0);
 	const [fieldColors, setFieldColors] = useState([
 		'var(--blank)',
 		'var(--blank)',
@@ -15,19 +13,21 @@ function App() {
 		'var(--blank)',
 	]);
 
+	/* setting clock on hours and minutes change */
+	useEffect(() => setFibClock(), [hours, minutes]);
+
 	/* get current time button */
 	const getCurrentTime = () => {
-		hoursValue.current.value = (new Date().getHours() + 24) % 12 || 12;
-		minutesValue.current.value = new Date().getMinutes();
-		setFibClock();
+		setHours(new Date().getHours() % 12 || 12);
+		setMinutes(new Date().getMinutes());
 	};
 
 	/* main fib clock function */
 	const setFibClock = () => {
 		/* represent time in fib */
 		const fibArr = [5, 3, 2, 1, 1];
-		let hoursTemp = hoursValue.current.value;
-		let minutesTemp = minutesValue.current.value;
+		let hoursTemp = hours;
+		let minutesTemp = minutes;
 
 		const hoursInFib = [];
 		const minutesInFib = [];
@@ -49,11 +49,11 @@ function App() {
 
 		/* set colors */
 		/* rewrite to use states + useEffect */
-		const fieldColorsTemp = [...fieldColors]; /* not necessary, im creating a whole new array */
+		const colors = [];
 		for (let i = 0; i < 5; i++) {
 			/* setting the blue fields */
 			if (hoursInFib.includes(fibArr[i]) && minutesInFib.includes(fibArr[i])) {
-				fieldColorsTemp[i] = 'var(--both)';
+				colors[i] = 'var(--both)';
 				hoursInFib.splice(hoursInFib.indexOf(fibArr[i]), 1);
 				minutesInFib.splice(minutesInFib.indexOf(fibArr[i]), 1);
 				continue;
@@ -61,23 +61,23 @@ function App() {
 
 			/* setting the red fields */
 			if (hoursInFib.includes(fibArr[i])) {
-				fieldColorsTemp[i] = 'var(--hours)';
+				colors[i] = 'var(--hours)';
 				hoursInFib.splice(hoursInFib.indexOf(fibArr[i]), 1);
 				continue;
 			}
 
 			/* setting the green fields */
 			if (minutesInFib.includes(fibArr[i])) {
-				fieldColorsTemp[i] = 'var(--minutes)';
+				colors[i] = 'var(--minutes)';
 				minutesInFib.splice(minutesInFib.indexOf(fibArr[i]), 1);
 				continue;
 			}
 
 			/* setting the white fields */
-			fieldColorsTemp[i] = 'var(--blank)';
+			colors[i] = 'var(--blank)';
 		}
-		/* console.log('fieldColorsTemp', fieldColorsTemp); */
-		setFieldColors(fieldColorsTemp);
+		/* console.log('colors', colors); */
+		setFieldColors(colors);
 	};
 
 	return (
@@ -90,11 +90,11 @@ function App() {
 						type="number"
 						name="hours"
 						id="hours"
-						ref={hoursValue}
+						value={hours}
 						min="1"
 						max="12"
 						onChange={(e) => {
-							setFibClock();
+							setHours(e.target.value);
 						}}
 					/>
 				</div>
@@ -104,21 +104,20 @@ function App() {
 						type="number"
 						name="minutes"
 						id="minutes"
-						ref={minutesValue}
+						value={minutes}
 						min="0"
 						max="59"
 						onChange={(e) => {
-							setFibClock();
+							setMinutes(e.target.value);
 						}}
 					/>
 				</div>
 				<button
 					onClick={() => {
 						getCurrentTime();
-						setFibClock();
 					}}
 				>
-						Get Current Time
+					Get Current Time
 				</button>
 			</div>
 			<div className="clock">
